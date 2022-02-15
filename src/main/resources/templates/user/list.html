@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>社員情報一覧</title>
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link href="/css/user/list.css" rel="stylesheet"></link>
+<meta charset="utf-8" />
+</head>
+<body>
+	<div class="container ">
+		<h1>社員情報一覧</h1>
+		<div style="padding-bottom: 30px">
+			<a th:href="@{/user/signup}">新規登録</a>
+		</div>
+		<!-- オブジェクト名は変数ではなく型名(頭文字を小文字) -->
+		<!-- actionは送信先のURLを記入 -->
+		<form method="post" th:action="@{/user/list}"
+			th:object="${searchForm}">
+			<label>氏名:</label> <input type="text" th:field="*{userNameKey}">
+			<p>
+				<label>入社日:</label> <input type="date" placeholder="yyyy/MM/dd"
+					th:field="*{minDay}" />～ <input type="date"
+					placeholder="yyyy/MM/dd" th:field="*{maxDay}" />
+			<p>
+			<div th:each="item : ${genderMap}" class="form-check-inline">
+
+				<input type="radio" class="form-check-input"
+					th:value="${item.value}" th:field="*{gender}" /> <label
+					class="form-check-label" th:text="${item.key}"></label>
+			</div>
+
+			<input type="submit" value="検索">
+		</form>
+		<table class="example">
+			<thead>
+				<tr>
+					<th>社員番号</th>
+					<th>氏名</th>
+					<th>氏名(カナ)</th>
+					<th>性別</th>
+					<th>電話番号</th>
+					<th>Email</th>
+					<th>入社日</th>
+					<th>更新日時</th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="user : ${userlist}" th:object="${user}">
+					<!-- th:classappend user.fireがtrueならfire-backクラスを付与 -->
+					<td th:classappend="${user.fire} ? fire-back : center"
+						th:text="*{userId}" />
+					<td th:classappend="${user.fire} ? fire-back : center"
+						th:text="*{userName}" />
+					<td th:classappend="${user.fire} ? fire-back : center"
+						th:text="*{userNameKana}" />
+					<td th:classappend="${user.fire} ? fire-back : center"
+						th:text="*{gender}" />
+					<td th:classappend="${user.fire} ? fire-back : center"
+						th:text="*{phoneNumber}" />
+					<td th:classappend="${user.fire} ? fire-back : center"
+						th:text="*{email}" />
+					<td th:classappend="${user.fire} ? fire-back : center"
+						th:text="${#dates.format(user.startDay, 'yyyy/MM/dd')}" />
+					<td th:classappend="${user.fire} ? fire-back : center"
+						th:text="${user.updateTime}"></td>
+					<!-- 					<td class="center"
+						th:text="${#dates.format(user.updateTime, 'yyyy-MM-dd HH:mm:ss')}" /> -->
+
+					<!--在籍社員 fireカラムがfalseなら表示 -->
+					<td th:classappend="${user.fire} ? fire-back : center"
+						th:if="${user.fire eq false}"><a
+						th:href="@{/user/{userId}/edit(userId=*{userId})}"
+						class="btn btn-primary">編集</a></td>
+
+					<!--退職社員 fireカラムがtrueなら表示 -->
+					<td th:classappend="${user.fire} ? fire-back : center"
+						th:if="${user.fire eq true}"><del class="fire-button">編集</del></td>
+
+					<td th:classappend="${user.fire} ? fire-back : center"
+						th:if="${user.fire eq false}"><a
+						th:href="@{/user/{userId}/fire(userId=*{userId})}"
+						class="btn btn-warning"
+						onclick="return confirm('この作業は修正できません。本当によろしいですか。')">退職</a></td>
+					<td th:classappend="${user.fire} ? fire-back : center"
+						th:if="${user.fire eq true}"><del class="fire-button">退職</del></td>
+					<td th:classappend="${user.fire} ? fire-back : center"><a
+						th:href="@{/user/{userId}/delete(userId=*{userId})}"
+						class="btn btn-danger"
+						onclick="return confirm('削除したデータは戻せません。よろしいですか。')">削除</a></td>
+					<td><a
+						th:href="@{/user/{userId}/signupDivision(userId=*{userId})}"
+						class="btn btn-primary">詳細情報登録</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

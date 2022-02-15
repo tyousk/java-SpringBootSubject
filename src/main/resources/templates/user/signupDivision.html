@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<!-- CSS読込 -->
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/hello/hello.css}">
+<title >部署情報登録</title>
+</head>
+<body>
+	<div class="container ">
+		<h2 class="my-5">詳細情報登録</h2>
+		<form id="signup-form" method="post" action="/user/divisionSignup"
+			class="form-signup" th:object="${signupDivisionForm}">
+
+			<!-- マウスホバー テーブル幅を設定  -->
+			<table class="table table-bordered table-hover col-10">
+
+				<!-- 社員番号 -->
+				<tr class="form-group">
+				<th class="align-middle">社員ID</th>
+					<td th:text="*{userId}" />
+				</tr>
+
+				<!-- 担当地区 -->
+				<tr class="form-group">
+					<th class="align-middle">担当地区</th>
+					<td><input type="text" class="form-control"
+						th:field="*{area}" th:errorclass="is-invalid" />
+<!-- 						<div class="invalid-feedback" th:errors="*{userId}"></div></td>
+ -->				</tr>
+				<!-- 売上 -->
+				<tr class="form-group">
+					<th class="align-middle">売上</th>
+					<td><input type="text" class="form-control"
+						th:field="*{sales}" th:errorclass="is-invalid" />
+<!-- 						<div class="invalid-feedback" th:errors="*{userName}"></div></td>
+ -->				</tr>
+				<!-- 保有顧客数 -->
+				<tr class="form-group">
+					<th class="align-middle" >保有顧客数</th>
+					<td><input type="text" class="form-control"
+						th:field="*{client}" th:errorclass="is-invalid" />
+<!-- 						<div class="invalid-feedback" th:errors="*{userNameKana}"></div></td>
+ -->				</tr>
+			</table>
+				<input type="submit" th:value="#{user.signup.btn}"
+					class="btn btn-primary w-30 mt-3" />
+		</form>
+	</div>
+	<!-- JS読込 -->
+	<script src="webjars/jquery/3.4.1/jquery.min.js"></script>
+	<script src="webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

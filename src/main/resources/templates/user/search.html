@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>社員検索</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  </head>
+  <body>
+        <form method="post" th:action="@{/user}" th:object="${signupForm}">
+            <label>氏名:</label>
+            <input type="text" th:field="*{userName}"><p>
+            <label>性別:</label>
+            <input type="text" th:field="*{gender}"><p>
+            <input type="submit" value="検索">
+        </form>
+    <div th:if="${resultSize > 0}"><label th:text="${resultSize}"></label>件</div>
+	<table th:if="${resultSize > 0}">
+		<thead>
+			<tr>
+				<th>社員番号</th>
+				<th>氏名</th>
+				<th>氏名(カナ)</th>
+				<th>性別</th>
+				<th>電話番号</th>
+				<th>Email</th>
+				<th>入社日</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="obj:${user}" th:object="${obj}">
+				<td class="center" th:text="*{userId}" />
+				<td th:text="*{userName}" />
+				<td th:text="*{userNameKana}" />
+				<td th:text="*{gender}" />
+				<td class="center" th:text="*{phoneNumber}" />
+				<td class="center" th:text="*{email}" />
+				<td class="center"
+					th:text="${#dates.format(user.startDay, 'yyyy/MM/dd')}" />
+			</tr>
+		</tbody>
+	</table>
+  </body>
+</html>

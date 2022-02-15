@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<!-- CSS読込 -->
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/hello/hello.css}">
+<title th:text="#{user.signup.title}"></title>
+</head>
+<body>
+	<div class="container ">
+		<h2 class="my-5" th:text="#{user.signup.title}"></h2>
+		<form id="signup-form" method="post" action="/user/signup"
+			class="form-signup" th:object="${signupForm}">
+
+			<!-- マウスホバー テーブル幅を設定  -->
+			<table class="table table-bordered table-hover col-10">
+				<!-- 社員番号 -->
+				<tr class="form-group">
+					<th class="align-middle" th:text="#{userId}"></th>
+					<td><input type="text" class="form-control"
+						th:field="*{userId}" th:errorclass="is-invalid" />
+						<div class="invalid-feedback" th:errors="*{userId}"></div></td>
+				</tr>
+				<!-- 氏名 -->
+				<tr class="form-group">
+					<th class="align-middle" th:text="#{userName}"></th>
+					<td><input type="text" class="form-control"
+						th:field="*{userName}" th:errorclass="is-invalid" />
+						<div class="invalid-feedback" th:errors="*{userName}"></div></td>
+				</tr>
+				<!-- 氏名(カナ) -->
+				<tr class="form-group">
+					<th class="align-middle" th:text="#{userNameKana}"></th>
+					<td><input type="text" class="form-control"
+						th:field="*{userNameKana}" th:errorclass="is-invalid" />
+						<div class="invalid-feedback" th:errors="*{userNameKana}"></div></td>
+				</tr>
+				<!-- 携帯電話番号 -->
+				<tr class="form-group">
+					<th class="align-middle" th:text="#{phoneNumber}"></th>
+					<td><input type="text" class="form-control"
+						th:field="*{phoneNumber}" th:errorclass="is-invalid" />
+						<div class="invalid-feedback" th:errors="*{phoneNumber}"></div></td>
+				</tr>
+				<!-- Email -->
+				<tr class="form-group">
+					<th class="align-middle" th:text="#{email}"></th>
+					<td><input type="text" class="form-control"
+						th:field="*{email}" th:errorclass="is-invalid" />
+						<div class="invalid-feedback" th:errors="*{email}"></div></td>
+				</tr>
+				<!-- 入社日 -->
+				<tr class="form-group">
+					<th class="align-middle" th:text="#{startDay}"></th>
+					<td><input type="text" class="form-control"
+						placeholder="yyyy/MM/dd" th:field="*{startDay}"
+						th:errorclass="is-invalid" />
+						<div class="invalid-feedback" th:errors="*{startDay}"></div></td>
+				</tr>
+
+
+			</table>
+			<!-- 性別 -->
+			<div class="form-group">
+				<div th:each="item : ${genderMap}" class="form-check-inline">
+					<input type="radio" class="form-check-input"
+						th:value="${item.value}" th:field="*{gender}"
+						th:errorclass="is-invalid" /> <label class="form-check-label"
+						th:text="${item.key}"></label>
+				</div>
+
+				<div class="text-danger" th:if="${#fields.hasErrors('gender')}"
+					th:errors="*{gender}"></div>
+			</div>
+				<input type="submit" th:value="#{user.signup.btn}"
+					class="btn btn-primary w-30 mt-3" />
+		</form>
+	</div>
+	<!-- JS読込 -->
+	<script src="webjars/jquery/3.4.1/jquery.min.js"></script>
+	<script src="webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
