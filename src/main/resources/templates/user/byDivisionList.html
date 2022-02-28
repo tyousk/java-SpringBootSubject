@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>社員情報一覧</title>
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link href="/css/user/list.css" rel="stylesheet"></link>
+<meta charset="utf-8" />
+</head>
+<body>
+<div class="container">
+<h1>部門一覧</h1>
+<hr class="hr1">
+		<table class="example">
+			<thead>
+				<tr>
+					<th>課番号</th>
+					<th>課名</th>
+					<th>合計人数</th>
+					<th>合計売上</th>
+					<th>平均売上</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="sumAvg : ${byDivisionList}" th:object="${sumAvg}">
+					<!-- th:classappend user.fireがtrueならfire-backクラスを付与 -->
+					<td th:text="*{divisionId}" />
+					<td th:text="*{divisionName}" />
+					<td th:text="*{count}" />
+					<td th:text="*{sum}" />
+					<td th:text="*{avg}" />
+					<td><a
+						th:href="@{/user/{divisionId}/byEmployeeList(divisionId=*{divisionId})}"
+						class="btn btn-primary">編集</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

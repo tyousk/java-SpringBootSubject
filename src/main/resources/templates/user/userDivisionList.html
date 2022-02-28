@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>部門別社員情報一覧</title>
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link href="/css/user/list.css" rel="stylesheet"></link>
+<script type="text/javascript" th:src="@{/js/list.js}"></script>
+</head>
+<body>
+	<div class="container ">
+		<h1>部門別社員情報一覧</h1>
+
+		<form id="sweetGroup">
+			<label> <input name="employee_button" type="radio"
+				onclick="clickBtn1()">
+				全社員
+			</label> <label> <input name="employee_button" type="radio"
+				onclick="clickBtn2()">
+				在籍社員
+			</label> <label> <input name="employee_button" type="radio"
+				onclick="clickBtn3()">
+				退職社員
+			</label>
+		</form>
+
+		<table class="example" id="all_employees">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>氏名</th>
+					<th>担当地区</th>
+					<th>売上</th>
+					<th>保有顧客数</th>
+					<th>更新日時</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="userDivision : ${userDivisionList}"
+					th:object="${userDivision}">
+
+					<!-- th:classappend user.fireがtrueならfire-backクラスを付与 -->
+
+					<td th:classappend="${userDivision.fire} ? fire-back : center"
+						th:text="*{user.userId}" />
+
+					<td th:classappend="${userDivision.fire} ? fire-back : center"
+						th:text="*{user.userName}" />
+
+					<td th:classappend="${userDivision.fire} ? fire-back : center"
+						th:text="*{area}" />
+
+					<td th:classappend="${userDivision.fire} ? fire-back : center"
+						th:text="*{sales}" />
+
+					<td th:classappend="${userDivision.fire} ? fire-back : center"
+						th:text="*{client}" />
+
+					<td th:classappend="${userDivision.fire} ? fire-back : center"
+						th:text="*{updateTime}" />
+
+					<!--在籍社員 fireカラムがfalseなら表示 -->
+
+					<td th:classappend="${userDivision.fire} ? fire-back : center"
+						th:if="${userDivision.fire eq false}"><a
+						th:href="@{/user/{Id}/editDivision(Id=*{Id})}"
+						class="btn btn-primary">編集</a></td>
+
+					<!--退職社員 fireカラムがtrueなら表示 -->
+					<td th:classappend="${userDivision.fire} ? fire-back : center"
+						th:if="${userDivision.fire eq true}"><del class="fire-button">編集</del></td>
+
+					<td th:classappend="${userDivision.fire} ? fire-back : center"
+						th:if="${userDivision.fire eq false}"><a
+						th:href="@{/user/{id}/fire(id=*{id})}" class="btn btn-warning"
+						onclick="return confirm('この作業は修正できません。本当によろしいですか。')">退職</a></td>
+					<td th:classappend="${userDivision.fire} ? fire-back : center"
+						th:if="${userDivision.fire eq true}"><del class="fire-button">退職</del></td>
+
+				</tr>
+			</tbody>
+		</table>
+
+		<table class="now_none" id="now_employees">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>氏名</th>
+					<th>担当地区</th>
+					<th>売上</th>
+					<th>保有顧客数</th>
+					<th>更新日時</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="userDivision : ${userDivisionList}"
+					th:object="${userDivision}">
+
+					<!-- th:classappend user.fireがtrueならfire-backクラスを付与 -->
+
+					<td th:classappend="${userDivision.fire} ? fire-none : center"
+						th:text="*{user.userId}" />
+
+					<td th:classappend="${userDivision.fire} ? fire-none : center"
+						th:text="*{user.userName}" />
+
+					<td th:classappend="${userDivision.fire} ? fire-none : center"
+						th:text="*{area}" />
+
+					<td th:classappend="${userDivision.fire} ? fire-none : center"
+						th:text="*{sales}" />
+
+					<td th:classappend="${userDivision.fire} ? fire-none : center"
+						th:text="*{client}" />
+
+					<td th:classappend="${userDivision.fire} ? fire-none : center"
+						th:text="*{updateTime}" />
+
+					<!--在籍社員 fireカラムがfalseなら表示 -->
+
+					<td th:classappend="${userDivision.fire} ? fire-none : center"
+						th:if="${userDivision.fire eq false}"><a
+						th:href="@{/user/{Id}/editDivision(Id=*{Id})}"
+						class="btn btn-primary">編集</a></td>
+
+					<!--退職社員 fireカラムがtrueなら表示 -->
+					<td th:classappend="${userDivision.fire} ? fire-none : center"
+						th:if="${userDivision.fire eq true}"><del class="fire-button">編集</del></td>
+
+					<td th:classappend="${userDivision.fire} ? fire-none : center"
+						th:if="${userDivision.fire eq false}"><a
+						th:href="@{/user/{divisionId}/{id}/fire(divisionId=*{divisionId}, id=*{id})}" class="btn btn-warning"
+						onclick="return confirm('この作業は修正できません。本当によろしいですか。')">退職</a></td>
+					<td th:classappend="${userDivision.fire} ? fire-none : center"
+						th:if="${userDivision.fire eq true}"><del class="fire-button">退職</del></td>
+
+				</tr>
+			</tbody>
+		</table>
+
+		<table class="fire_none" id="fire_employees">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>氏名</th>
+					<th>担当地区</th>
+					<th>売上</th>
+					<th>保有顧客数</th>
+					<th>更新日時</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="userDivision : ${userDivisionList}"
+					th:object="${userDivision}">
+
+					<!-- th:classappend user.fireがtrueならfire-backクラスを付与 -->
+
+					<td th:classappend="${userDivision.fire} ? center : now-none"
+						th:text="*{user.userId}" />
+
+					<td th:classappend="${userDivision.fire} ? center : now-none"
+						th:text="*{user.userName}" />
+
+					<td th:classappend="${userDivision.fire} ? center : now-none"
+						th:text="*{area}" />
+
+					<td th:classappend="${userDivision.fire} ? center : now-none"
+						th:text="*{sales}" />
+
+					<td th:classappend="${userDivision.fire} ? center : now-none"
+						th:text="*{client}" />
+
+					<td th:classappend="${userDivision.fire} ? center : now-none"
+						th:text="*{updateTime}" />
+
+					<td th:if="${userDivision.fire eq true}"><del class="fire-button">編集</del></td>
+
+					<td th:if="${userDivision.fire eq true}"><del class="fire-button">退職</del></td>
+
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>
+
+<script>
+document.getElementById("now_employees").style.display ="none";
+document.getElementById("fire_employees").style.display ="none";
+</script>
