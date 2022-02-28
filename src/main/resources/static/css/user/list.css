@@ -1,5 +1,5 @@
 body {
-    width: 80%;
+
 }
 
 table {
@@ -20,7 +20,11 @@ table th {
 table input {
     width: 90%;
 }
-
+h1 {
+	color: #004080;
+  text-shadow: #fff 2px 0, #fff -2px 0, #fff 0 -2px, #fff 0 2px, #fff 2px 2px, #fff -2px 2px, #fff 2px -2px, #fff -2px -2px, #fff 1px 2px, #fff -1px 2px, #fff 1px -2px, #fff -1px -2px, #fff 2px 1px, #fff -2px 1px, #fff 2px -1px, #fff -2px -1px, rgba(0, 0, 0, .5) 3px 3px 3px;
+  text-align: center
+}
 .cell_title {
     border-right: 0;
 }
@@ -55,4 +59,18 @@ table input {
 	font-size: 18px;
 	text-align: center;
 }
-
+.fire-none{
+	display:none;
+}
+.now-none{
+	display:none;
+}
+.none{
+	display:none;
+}
+.hr1 {
+  position: relative;
+	height: 3px;
+	border-width: 0;
+	background-color: #0080c0;
+}

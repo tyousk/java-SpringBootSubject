@@ -5,9 +5,13 @@ import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.example.entity.User;
+
 import lombok.Data;
 @Data
 public class SignupDivisionForm implements Serializable{
+
+	private Integer id;
 
 	private String area;
 
@@ -18,12 +22,13 @@ public class SignupDivisionForm implements Serializable{
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
 	private LocalDateTime updateTime;
 
-	private Integer division_id;
+	private Integer divisionId;
 
-	private String division_name;
+	private String divisionName;
 
 	private boolean fire;
 
-	private Integer userId;
+	private User user;
+
 
 }

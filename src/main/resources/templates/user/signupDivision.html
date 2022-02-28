@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:th="http://www.thymeleaf.org">
+	xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <!-- CSS読込 -->
 <link rel="stylesheet"
 	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
 <link rel="stylesheet" th:href="@{/css/hello/hello.css}">
-<title >部署情報登録</title>
+<title>部署情報登録</title>
 </head>
 <body>
 	<div class="container ">
@@ -18,36 +18,69 @@
 			<!-- マウスホバー テーブル幅を設定  -->
 			<table class="table table-bordered table-hover col-10">
 
-				<!-- 社員番号 -->
+				<!-- 社員番号  -->
 				<tr class="form-group">
-				<th class="align-middle">社員ID</th>
-					<td th:text="*{userId}" />
+					<th class="align-middle">社員ID</th>
+					<td th:text="*{user.userId}" />
 				</tr>
 
 				<!-- 担当地区 -->
 				<tr class="form-group">
 					<th class="align-middle">担当地区</th>
-					<td><input type="text" class="form-control"
-						th:field="*{area}" th:errorclass="is-invalid" />
-<!-- 						<div class="invalid-feedback" th:errors="*{userId}"></div></td>
- -->				</tr>
+					<td><input type="text" class="form-control" th:field="*{area}"
+						th:errorclass="is-invalid" /> <!-- 						<div class="invalid-feedback" th:errors="*{userId}"></div></td>
+ -->
+				</tr>
 				<!-- 売上 -->
 				<tr class="form-group">
 					<th class="align-middle">売上</th>
 					<td><input type="text" class="form-control"
-						th:field="*{sales}" th:errorclass="is-invalid" />
-<!-- 						<div class="invalid-feedback" th:errors="*{userName}"></div></td>
- -->				</tr>
+						th:field="*{sales}" th:errorclass="is-invalid" /> <!-- 						<div class="invalid-feedback" th:errors="*{userName}"></div></td>
+ -->
+				</tr>
 				<!-- 保有顧客数 -->
 				<tr class="form-group">
-					<th class="align-middle" >保有顧客数</th>
+					<th class="align-middle">保有顧客数</th>
 					<td><input type="text" class="form-control"
-						th:field="*{client}" th:errorclass="is-invalid" />
-<!-- 						<div class="invalid-feedback" th:errors="*{userNameKana}"></div></td>
- -->				</tr>
+						th:field="*{client}" th:errorclass="is-invalid" /> <!-- 						<div class="invalid-feedback" th:errors="*{userNameKana}"></div></td>
+ -->
+				</tr>
+				<!-- 課名 -->
+				<tr class="form-group">
+					<th class="align-middle">課名</th>
+					<td><select th:field="*{divisionName}" id="name-id">
+							<!-- th:eachでdivisionsの要素分ループをまわす -->
+							<!-- th:selectedで初期の選択値を指定する -->
+							<option th:each="divisionName : ${divisionName}"
+								th:value="${divisionName.value}" th:text="${divisionName.value}">
+							</option>
+					</select></td>
+				</tr>
 			</table>
-				<input type="submit" th:value="#{user.signup.btn}"
-					class="btn btn-primary w-30 mt-3" />
+			<!--隠しフォーム 社員番号 -->
+			<div class="form-group">
+				<div>
+					<input type="hidden" class="form-control" th:field="*{user}"
+						th:errorclass="is-invalid" />
+				</div>
+			</div>
+
+			<!--隠しフォーム id -->
+			<div class="form-group">
+				<div>
+					<input type="hidden" class="form-control" th:field="*{id}"
+						th:errorclass="is-invalid" />
+				</div>
+			</div>
+			<!--隠しフォーム 課id -->
+			<div class="form-group">
+				<div>
+					<input type="hidden" class="form-control" id="divinsionId" th:field="*{divisionId}"
+						th:errorclass="is-invalid" />
+				</div>
+			</div>
+			<input type="submit" th:value="#{user.signup.btn}"
+				class="btn btn-primary w-30 mt-3" />
 		</form>
 	</div>
 	<!-- JS読込 -->
@@ -55,3 +88,30 @@
 	<script src="webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
+<script>
+
+/* 課IDの初期値設定 */
+document.getElementById("divinsionId").value = 1;
+
+/* 課名のセレクトボックスを選択すると課IDのフォームに自動入力 */
+document.getElementById("name-id").onchange = function(){
+	var idName = document.getElementById("name-id");
+
+	switch(idName.value){
+		case '営業一課':
+			dId = 1;
+			break;
+		case '営業二課':
+			dId = 2;
+			break;
+		case '営業三課':
+			dId = 3;
+			break;
+		case '営業四課':
+			dId = 4;
+			break;
+	}
+
+	document.getElementById("divinsionId").value = dId;
+};
+</script>

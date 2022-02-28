@@ -11,8 +11,10 @@
 <body>
 	<div class="container ">
 		<h1>社員情報一覧</h1>
+		<hr class="hr1">
 		<div style="padding-bottom: 30px">
-			<a th:href="@{/user/signup}">新規登録</a>
+			<span><a th:href="@{/user/signup}">新規登録</a></span>
+			<span><a th:href="@{/user/byDivisionList}">部門一覧</a></span>
 		</div>
 		<!-- オブジェクト名は変数ではなく型名(頭文字を小文字) -->
 		<!-- actionは送信先のURLを記入 -->
@@ -43,8 +45,6 @@
 					<th>電話番号</th>
 					<th>Email</th>
 					<th>入社日</th>
-					<th>更新日時</th>
-					<th></th>
 					<th></th>
 					<th></th>
 				</tr>
@@ -52,22 +52,13 @@
 			<tbody>
 				<tr th:each="user : ${userlist}" th:object="${user}">
 					<!-- th:classappend user.fireがtrueならfire-backクラスを付与 -->
-					<td th:classappend="${user.fire} ? fire-back : center"
-						th:text="*{userId}" />
-					<td th:classappend="${user.fire} ? fire-back : center"
-						th:text="*{userName}" />
-					<td th:classappend="${user.fire} ? fire-back : center"
-						th:text="*{userNameKana}" />
-					<td th:classappend="${user.fire} ? fire-back : center"
-						th:text="*{gender}" />
-					<td th:classappend="${user.fire} ? fire-back : center"
-						th:text="*{phoneNumber}" />
-					<td th:classappend="${user.fire} ? fire-back : center"
-						th:text="*{email}" />
-					<td th:classappend="${user.fire} ? fire-back : center"
-						th:text="${#dates.format(user.startDay, 'yyyy/MM/dd')}" />
-					<td th:classappend="${user.fire} ? fire-back : center"
-						th:text="${user.updateTime}"></td>
+					<td th:text="*{userId}" />
+					<td th:text="*{userName}" />
+					<td th:text="*{userNameKana}" />
+					<td th:text="*{gender}" />
+					<td th:text="*{phoneNumber}" />
+					<td th:text="*{email}" />
+					<td th:text="${#dates.format(user.startDay, 'yyyy/MM/dd')}" />
 					<!-- 					<td class="center"
 						th:text="${#dates.format(user.updateTime, 'yyyy-MM-dd HH:mm:ss')}" /> -->
 
@@ -77,21 +68,11 @@
 						th:href="@{/user/{userId}/edit(userId=*{userId})}"
 						class="btn btn-primary">編集</a></td>
 
-					<!--退職社員 fireカラムがtrueなら表示 -->
-					<td th:classappend="${user.fire} ? fire-back : center"
-						th:if="${user.fire eq true}"><del class="fire-button">編集</del></td>
-
-					<td th:classappend="${user.fire} ? fire-back : center"
-						th:if="${user.fire eq false}"><a
-						th:href="@{/user/{userId}/fire(userId=*{userId})}"
-						class="btn btn-warning"
-						onclick="return confirm('この作業は修正できません。本当によろしいですか。')">退職</a></td>
-					<td th:classappend="${user.fire} ? fire-back : center"
-						th:if="${user.fire eq true}"><del class="fire-button">退職</del></td>
 					<td th:classappend="${user.fire} ? fire-back : center"><a
 						th:href="@{/user/{userId}/delete(userId=*{userId})}"
 						class="btn btn-danger"
 						onclick="return confirm('削除したデータは戻せません。よろしいですか。')">削除</a></td>
+					<!-- <td th:object="${userDivision}" th:if="${userDivision.divisionId eq null}"> -->
 					<td><a
 						th:href="@{/user/{userId}/signupDivision(userId=*{userId})}"
 						class="btn btn-primary">詳細情報登録</a></td>

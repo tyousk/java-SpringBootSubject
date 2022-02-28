@@ -23,12 +23,16 @@ import lombok.Data;
 @Table(name = "user")
 public class User implements Serializable {
 
+	/*//	一側のフィールドに、多側のエンティティのコレクションを保持
+		@OneToMany(mappedBy = "user")
+		private List<UserDivision> userDivisionList;*/
+
 	/**
 	 * 社員番号
 	 */
 	@Id
 	@Column(name = "user_id")
-	private Integer userId;
+	public Integer userId;
 
 	/**
 	 * 氏名
@@ -65,41 +69,26 @@ public class User implements Serializable {
 	 */
 	@Column(name = "gender")
 	private String gender;
-	/**
-	 * 担当地区
-	 */
-	@Column(name = "area")
-	private String area;
-
-	/**
-	 * 売上
-	 */
-	@Column(name = "sales")
-	private Integer sales;
 
 	/**
 	 * データ更新日時
 	 */
 	@Column(name = "update_time")
 	private LocalDateTime updateTime; //日付と時刻
-//	private Date updateTime;  （日付のみの場合）
+	//	private Date updateTime;  （日付のみの場合）
 
-//	更新日時をセット
+	//	更新日時をセット
 	@PreUpdate
 	public void onPreUpdate() {
 		setUpdateTime(LocalDateTime.now());
-//		setUpdateTime(new Date());  日付のみ
+		//		setUpdateTime(new Date());  日付のみ
 	}
-
-	/**
-	 * 保有顧客数
-	 */
-	@Column(name = "client")
-	private Integer client;
 
 	/**
 	 * 退職者判定
 	 */
 	@Column(name = "fire")
 	private boolean fire;
+
+
 }

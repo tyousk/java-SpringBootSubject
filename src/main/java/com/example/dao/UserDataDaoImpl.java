@@ -10,6 +10,7 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
 import com.example.entity.User;
+import com.example.entity.UserDivision;
 
 @Repository
 public class UserDataDaoImpl implements UserDataDao {
@@ -30,16 +31,7 @@ public class UserDataDaoImpl implements UserDataDao {
 	//Daoクラスで用意したsearchメソッドをオーバーライドする
 	@Override
 
-			public List<User> search(String userNameKey, String gender, Date minDay, Date maxDay) {
-
-
-		//sDayに値が入力されていれば
-		//String型sDayをDate型dateSDayに変換
-//		if(!"".equals(sDay)) {
-//		Date dateSDay = sdFormat.parse(sDay);
-//
-//		System.out.println(dateSDay);
-//		}
+	public List<User> search(String userNameKey, String gender, Date minDay, Date maxDay) {
 
 		//StringBuilderでSQL文を連結する
 		StringBuilder sql = new StringBuilder();
@@ -61,7 +53,7 @@ public class UserDataDaoImpl implements UserDataDao {
 
 		//genderがnullではなかった場合、sql変数にappendする
 		//フラグをtrueにしとく
-		if (!(gender==null)) {
+		if (!(gender == null)) {
 			if (andFlg)
 				sql.append(" AND ");
 			sql.append("u.gender LIKE :gender");
@@ -69,21 +61,20 @@ public class UserDataDaoImpl implements UserDataDao {
 			andFlg = true;
 		}
 
-		if (!(minDay==null)) {
+		if (!(minDay == null)) {
 			if (andFlg)
 				sql.append(" AND ");
 			sql.append(" u.startDay >= :minDay");
 			minDayFlg = true;
 			andFlg = true;
 		}
-		if (!(maxDay==null)) {
+		if (!(maxDay == null)) {
 			if (andFlg)
 				sql.append(" AND ");
 			sql.append(" u.startDay <= :maxDay");
 			maxDayFlg = true;
 			andFlg = true;
 		}
-
 
 		/*
 		QueryはSQLでデータを問い合わせるためのクエリ文に相当する機能を持つ
@@ -105,12 +96,31 @@ public class UserDataDaoImpl implements UserDataDao {
 			query.setParameter("minDay", minDay);
 		if (maxDayFlg)
 			query.setParameter("maxDay", maxDay);
-			System.out.println("sDayクエリー");
+		System.out.println("sDayクエリー");
 
 		System.out.println("クエリー");
 		System.out.println(sql.append(userNameKey));
 		System.out.println(sql.append(gender));
 
+		return query.getResultList();
+	}
+
+	@Override
+	public List<UserDivision> search(Integer divisionId) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT u From UserDivision u WHERE u.divisionId Like :divisionId");
+
+		Query query = entityManager.createQuery(sql.toString());
+		query.setParameter("divisionId", divisionId);
+		System.out.println(query.getResultList());
+		return query.getResultList();
+	}
+
+	public List<UserDivision> searchDiv() {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select division_name from user_division  group by division_id order by division_id asc");
+		Query query = entityManager.createNativeQuery(sql.toString());
+		System.out.println(query.getResultList());
 		return query.getResultList();
 	}
 }
