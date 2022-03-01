@@ -60,7 +60,6 @@ public class UserDataDaoImpl implements UserDataDao {
 			genderFlg = true;
 			andFlg = true;
 		}
-
 		if (!(minDay == null)) {
 			if (andFlg)
 				sql.append(" AND ");

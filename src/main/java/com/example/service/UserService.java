@@ -145,17 +145,18 @@ public class UserService {
 		System.out.println(userDivisionRepository.getSumAvg());
 		System.out.println(userDivisionRepository.getSumAvg().getClass());
 		var a = userDivisionRepository.getSumAvg();
-		ArrayList<SumAvg> g = new ArrayList<SumAvg>();
+		ArrayList<SumAvg> sumAvgList = new ArrayList<SumAvg>();
 		for(var b:a) {
-			var c = b.split(",");
-			Integer e = Integer.parseInt(c[0]);
-			Integer f = Integer.parseInt(c[2]);
-			Integer h = Integer.parseInt(c[3]);
-			BigDecimal i = new BigDecimal(c[4]);
-			SumAvg d = new SumAvg(e,c[1],f,h,i);
-			g.add(d);
+			var c = b.split(","); //カンマで区切る
+			Integer intc0= Integer.parseInt(c[0]);
+			Integer intc2 = Integer.parseInt(c[2]);
+			Integer intc3= Integer.parseInt(c[3]);
+			BigDecimal intc4 = new BigDecimal(c[4]);
+			                                                                   //小数点切り捨て
+			SumAvg sumAvg = new SumAvg(intc0,c[1],intc2,intc3,intc4.setScale(0, BigDecimal.ROUND_HALF_UP));
+			sumAvgList.add(sumAvg);
 		}
-		return g;
+		return sumAvgList;
 	}
 
 //	public List<UserDivision> getDivisionList () {
